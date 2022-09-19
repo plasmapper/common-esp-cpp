@@ -22,3 +22,6 @@ Add this to the source code:
 3. Event and event handler classes.
 4. Lockable stream class.
 5. Base classes for hardware interface and server.
+
+## Documentation
+[Documentation](https://plasmapper.github.io/esp-cpp/common)
