@@ -7,7 +7,7 @@ namespace PL {
 
 //==============================================================================
 
-Buffer::Buffer (void* data, size_t size, std::shared_ptr<Lockable> lockable) : data (data), size (size), lockable (lockable), preallocated (true) {}
+Buffer::Buffer (size_t size) : data (malloc (size)), size (size), lockable (std::make_shared<Mutex>()), preallocated (false) {}
 
 //==============================================================================
 
@@ -15,7 +15,7 @@ Buffer::Buffer (void* data, size_t size) : Buffer (data, size, std::make_shared<
 
 //==============================================================================
 
-Buffer::Buffer (size_t size) : data (malloc (size)), size (size), lockable (std::make_shared<Mutex>()), preallocated (false) {}
+Buffer::Buffer (void* data, size_t size, std::shared_ptr<Lockable> lockable) : data (data), size (size), lockable (lockable), preallocated (true) {}
 
 //==============================================================================
 
