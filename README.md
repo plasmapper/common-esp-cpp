@@ -15,6 +15,10 @@ Add this to the source code:
 ```C++
 #include "pl_common.h"
 ```
+Add `extern "C"` to `app_main` in `main.cpp`:
+```C++
+extern "C" void app_main(void) {...}
+```
 
 ## Features
 1. Mutex and lock guard class wrappers for FreeRTOS semaphores.
