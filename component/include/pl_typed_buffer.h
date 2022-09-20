@@ -31,6 +31,8 @@ public:
     if (!preallocated)
       delete data;
   }
+  TypedBuffer (const TypedBuffer&) = delete;
+  TypedBuffer& operator= (const TypedBuffer&) = delete;
 
 private:
   bool preallocated;
