@@ -36,7 +36,7 @@ void TestBuffer() {
   PL::TypedBuffer<CustomBufferType> buffer4;
   for (int i = 0; i < sizeof (dataToWrite) / sizeof (int); i++)
     ((int*)((PL::Buffer&)buffer4).data)[i] = dataToWrite[i];
-  TEST_ASSERT_EQUAL (dataToWrite[0], buffer4.data.x);
-  TEST_ASSERT_EQUAL (dataToWrite[1], buffer4.data.y);
-  TEST_ASSERT_EQUAL (dataToWrite[2], buffer4.data.z);
+  TEST_ASSERT_EQUAL (dataToWrite[0], buffer4.data->x);
+  TEST_ASSERT_EQUAL (dataToWrite[1], buffer4.data->y);
+  TEST_ASSERT_EQUAL (dataToWrite[2], buffer4.data->z);
 }
