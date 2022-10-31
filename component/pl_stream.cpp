@@ -61,4 +61,10 @@ esp_err_t Stream::Write (Buffer& src, size_t offset, size_t size) {
 
 //==============================================================================
 
+esp_err_t Stream::Write (const std::string& src) {
+  return Write (src.c_str(), src.size());
+}
+
+//==============================================================================
+
 }

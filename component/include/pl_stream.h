@@ -59,7 +59,12 @@ public:
   /// @param offset source buffer offset
   /// @param size number of bytes to write
   /// @return error code
-  esp_err_t Write (Buffer& src, size_t offset, size_t size);     
+  esp_err_t Write (Buffer& src, size_t offset, size_t size);
+
+  /// @brief Write the string to the stream
+  /// @param src source string
+  /// @return error code
+  esp_err_t Write (const std::string& src);
 
   /// @brief Get the number of bytes that are available for reading from the stream
   /// @return number of bytes

@@ -55,6 +55,7 @@ void TestStream() {
 
   TEST_ASSERT (stream.Write (tempData, bufferSize) == ESP_OK);
   TEST_ASSERT (stream.Write (buffer, 0, bufferSize) == ESP_OK);
+  TEST_ASSERT (stream.Write ("Test") == ESP_OK);
   TEST_ASSERT (stream.Write (buffer, bufferSize, 1) == ESP_ERR_INVALID_ARG);
   TEST_ASSERT (stream.Write (buffer, 0, bufferSize + 1) == ESP_ERR_INVALID_SIZE);
 
