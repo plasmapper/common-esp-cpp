@@ -26,6 +26,7 @@ public:
   /// @brief Enable the hardware interface
   /// @return error code
   virtual esp_err_t Enable() = 0;
+  
   /// @brief Disable the hardware interface
   /// @return error code
   virtual esp_err_t Disable() = 0;
@@ -37,6 +38,7 @@ public:
   /// @brief Get the hardware interface name
   /// @return name
   std::string GetName();
+  
   /// @brief Set the hardware interface name
   /// @param name 
   void SetName (const std::string& name);
