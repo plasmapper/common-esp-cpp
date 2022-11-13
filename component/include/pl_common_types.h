@@ -9,11 +9,11 @@ namespace PL {
 
 /// @brief Task parameters
 struct TaskParameters {
-  /// @brief task stack depth
+  /// @brief Task stack depth
   uint32_t stackDepth;
-  /// @brief task priority
+  /// @brief Task priority
   UBaseType_t priority;
-  /// @brief task CPU core ID
+  /// @brief Task CPU core ID
   BaseType_t coreId;
 };
 
@@ -21,11 +21,11 @@ struct TaskParameters {
 
 /// @brief Semantic version
 struct SemanticVersion {
-  /// @brief major version
+  /// @brief Major version
   uint16_t major;
-  /// @brief minor version
+  /// @brief Minor version
   uint16_t minor;
-  /// @brief patch version
+  /// @brief Patch version
   uint16_t patch;
 };
 
