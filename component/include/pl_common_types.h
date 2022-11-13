@@ -19,4 +19,16 @@ struct TaskParameters {
 
 //==============================================================================
 
+/// @brief Semantic version
+struct SemanticVersion {
+  /// @brief major version
+  uint16_t major;
+  /// @brief minor version
+  uint16_t minor;
+  /// @brief patch version
+  uint16_t patch;
+};
+
+//==============================================================================
+
 }
