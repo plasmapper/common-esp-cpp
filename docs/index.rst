@@ -30,7 +30,7 @@ Features
    :cpp:func:`template<class HandlerClass> void PL::Event::AddHandler(std::shared_ptr<HandlerClass>, void(HandlerClass::*)(Source&, Args...))`
    should be used.
 8. :cpp:class:`PL::Stream` - a base class for any stream. A number of :cpp:func:`PL::Stream::Read` and :cpp:func:`PL::Stream::Write`
-   functions read and write to/from memory and :cpp:class:`PL::Buffer` objects. Reading and writing to/from :cpp:class:`PL::Buffer`
+   functions read and write from/to the stream. Reading and writing to/from :cpp:class:`PL::Buffer`
    object checks the data size and locks the object so these methods can be used in multithreaded applications.
 9. :cpp:class:`PL::HardwareInterface` - a base class for any hardware interface. Descendant classes should override
    :cpp:func:`PL::HardwareInterface::Initialize`, :cpp:func:`PL::HardwareInterface::Enable`, :cpp:func:`PL::HardwareInterface::Disable`,
