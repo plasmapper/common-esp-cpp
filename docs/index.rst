@@ -45,7 +45,6 @@ API reference
 
 .. toctree::
   
-  api/macros
   api/types      
   api/lockable
   api/lock_guard

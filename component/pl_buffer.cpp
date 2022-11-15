@@ -1,5 +1,10 @@
 #include "pl_buffer.h"
 #include "pl_mutex.h"
+#include "esp_check.h"
+
+//==============================================================================
+
+static const char* TAG = "pl_buffer";
 
 //==============================================================================
 
@@ -27,13 +32,15 @@ Buffer::~Buffer() {
 //==============================================================================
 
 esp_err_t Buffer::Lock (TickType_t timeout) {
-  return lockable->Lock (timeout);
+  ESP_RETURN_ON_ERROR (lockable->Lock (timeout), TAG, "lock buffer failed");
+  return ESP_OK;
 }
 
 //==============================================================================
 
 esp_err_t Buffer::Unlock() {
-  return lockable->Unlock();
+  ESP_RETURN_ON_ERROR (lockable->Unlock(), TAG, "unlock buffer failed");
+  return ESP_OK;
 }
 
 //==============================================================================

@@ -34,21 +34,21 @@ void TestStream() {
   TEST_ASSERT (stream.Read (buffer, 0, bufferSize + 1) == ESP_ERR_INVALID_SIZE);
 
   stream.Reset();
-  TEST_ASSERT (stream.ReadUntil (tempData, bufferSize, bufferSize - 1, tempDataSize) == ESP_OK);
+  TEST_ASSERT (stream.ReadUntil (tempData, bufferSize, bufferSize - 1, &tempDataSize) == ESP_OK);
   for (size_t i = 0; i < bufferSize; i++)
     TEST_ASSERT (tempData[i] == i);
   TEST_ASSERT (tempDataSize == bufferSize);
 
   stream.Reset();
-  TEST_ASSERT (stream.ReadUntil (buffer, 0, bufferSize - 1, tempDataSize) == ESP_OK);
+  TEST_ASSERT (stream.ReadUntil (buffer, 0, bufferSize - 1, &tempDataSize) == ESP_OK);
   for (size_t i = 0; i < bufferSize; i++)
     TEST_ASSERT (((uint8_t*)buffer.data)[i] == i);
   TEST_ASSERT (tempDataSize == bufferSize);
 
   stream.Reset();
-  TEST_ASSERT (stream.ReadUntil (buffer, bufferSize, 0, tempDataSize) == ESP_ERR_INVALID_ARG);
+  TEST_ASSERT (stream.ReadUntil (buffer, bufferSize, 0, &tempDataSize) == ESP_ERR_INVALID_ARG);
   stream.Reset();
-  TEST_ASSERT (stream.ReadUntil (buffer, 0, bufferSize, tempDataSize) == ESP_ERR_INVALID_SIZE);
+  TEST_ASSERT (stream.ReadUntil (buffer, 0, bufferSize, &tempDataSize) == ESP_ERR_INVALID_SIZE);
 
   stream.Reset();
   TEST_ASSERT (stream.ReadUntil (0xFF) == ESP_OK);

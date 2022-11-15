@@ -33,7 +33,7 @@ public:
   /// @param termChar termination character
   /// @param size number of bytes read
   /// @return error code
-  esp_err_t ReadUntil (void* dest, size_t maxSize, char termChar, size_t& size);
+  esp_err_t ReadUntil (void* dest, size_t maxSize, char termChar, size_t* size);
 
   /// @brief Read the data from the stream to the buffer up to the specified termination character 
   /// @param dest destination buffer
@@ -41,7 +41,7 @@ public:
   /// @param termChar termination character
   /// @param size number of bytes read
   /// @return error code
-  esp_err_t ReadUntil (Buffer& dest, size_t offset, char termChar, size_t& size);
+  esp_err_t ReadUntil (Buffer& dest, size_t offset, char termChar, size_t* size);
   
   /// @brief Read the data from the stream up to the specified termination character
   /// @param termChar termination character

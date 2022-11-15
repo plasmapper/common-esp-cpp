@@ -1,4 +1,9 @@
 #include "pl_mutex.h"
+#include "esp_check.h"
+
+//==============================================================================
+
+static const char* TAG = "pl_mutex";
 
 //==============================================================================
 
@@ -18,17 +23,19 @@ Mutex::~Mutex () {
 //==============================================================================
 
 esp_err_t Mutex::Lock (TickType_t timeout) {
-  if (!mutex || xPortInIsrContext())
-    return ESP_ERR_INVALID_STATE;
-  return (xSemaphoreTakeRecursive (mutex, timeout))?(ESP_OK):(ESP_ERR_TIMEOUT);
+  ESP_RETURN_ON_FALSE (mutex, ESP_ERR_INVALID_STATE, TAG, "mutex is null");
+  ESP_RETURN_ON_FALSE (!xPortInIsrContext(), ESP_ERR_INVALID_STATE, TAG, "calling mutex lock from ISR");
+  ESP_RETURN_ON_FALSE (xSemaphoreTakeRecursive (mutex, timeout), ESP_ERR_TIMEOUT, TAG, "mutex lock timeout");
+  return ESP_OK;
 }
 
 //==============================================================================
 
 esp_err_t Mutex::Unlock() {
-  if (!mutex || xPortInIsrContext())
-    return ESP_ERR_INVALID_STATE;
-  return (xSemaphoreGiveRecursive (mutex))?(ESP_OK):(ESP_FAIL);
+  ESP_RETURN_ON_FALSE (mutex, ESP_ERR_INVALID_STATE, TAG, "mutex is null");
+  ESP_RETURN_ON_FALSE (!xPortInIsrContext(), ESP_ERR_INVALID_STATE, TAG, "calling mutex unlock from ISR");
+  ESP_RETURN_ON_FALSE (xSemaphoreGiveRecursive (mutex), ESP_FAIL, TAG, "mutex unlock failed");
+  return ESP_OK;
 }
 
 //==============================================================================
