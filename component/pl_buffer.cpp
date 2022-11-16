@@ -32,7 +32,12 @@ Buffer::~Buffer() {
 //==============================================================================
 
 esp_err_t Buffer::Lock (TickType_t timeout) {
-  ESP_RETURN_ON_ERROR (lockable->Lock (timeout), TAG, "lock buffer failed");
+  esp_err_t error = lockable->Lock (timeout);
+  if (error == ESP_OK)
+    return ESP_OK;
+  if (error == ESP_ERR_TIMEOUT && timeout == 0)
+    return ESP_ERR_TIMEOUT;
+  ESP_RETURN_ON_ERROR (error, TAG, "lock buffer failed");
   return ESP_OK;
 }
 

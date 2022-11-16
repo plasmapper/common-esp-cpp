@@ -25,7 +25,11 @@ Mutex::~Mutex () {
 esp_err_t Mutex::Lock (TickType_t timeout) {
   ESP_RETURN_ON_FALSE (mutex, ESP_ERR_INVALID_STATE, TAG, "mutex is null");
   ESP_RETURN_ON_FALSE (!xPortInIsrContext(), ESP_ERR_INVALID_STATE, TAG, "calling mutex lock from ISR");
-  ESP_RETURN_ON_FALSE (xSemaphoreTakeRecursive (mutex, timeout), ESP_ERR_TIMEOUT, TAG, "mutex lock timeout");
+  if (xSemaphoreTakeRecursive (mutex, timeout))
+    return ESP_OK;
+  if (timeout == 0)
+    return ESP_ERR_TIMEOUT;
+  ESP_RETURN_ON_ERROR (ESP_ERR_TIMEOUT, TAG, "mutex lock timeout");
   return ESP_OK;
 }
 
