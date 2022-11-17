@@ -37,14 +37,14 @@ esp_err_t Buffer::Lock (TickType_t timeout) {
     return ESP_OK;
   if (error == ESP_ERR_TIMEOUT && timeout == 0)
     return ESP_ERR_TIMEOUT;
-  ESP_RETURN_ON_ERROR (error, TAG, "buffer lock failed");
+  ESP_RETURN_ON_ERROR (error, TAG, "lock failed");
   return ESP_OK;
 }
 
 //==============================================================================
 
 esp_err_t Buffer::Unlock() {
-  ESP_RETURN_ON_ERROR (lockable->Unlock(), TAG, "buffer unlock failed");
+  ESP_RETURN_ON_ERROR (lockable->Unlock(), TAG, "unlock failed");
   return ESP_OK;
 }
 
