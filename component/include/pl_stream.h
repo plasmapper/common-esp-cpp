@@ -66,6 +66,11 @@ public:
   /// @return error code
   esp_err_t Write (const std::string& src);
 
+  /// @brief Discard the data in the read buffer until no data is received for the specified period of time
+  /// @param time time 
+  /// @return error code
+  esp_err_t FlushReadBuffer (TickType_t time = 0);
+
   /// @brief Get the number of bytes that are available for reading from the stream
   /// @return number of bytes
   virtual size_t GetReadableSize() = 0;
@@ -77,7 +82,7 @@ public:
   /// @brief Set the read operation timeout 
   /// @param timeout timeout in FreeRTOS ticks
   /// @return error code
-  virtual esp_err_t SetReadTimeout(TickType_t timeout) = 0;
+  virtual esp_err_t SetReadTimeout (TickType_t timeout) = 0;
 };
 
 //==============================================================================

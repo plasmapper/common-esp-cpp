@@ -5,7 +5,7 @@
 
 const size_t bufferSize = 10;
 const TickType_t readTimeout = 10;
-const size_t readableSize = 1;
+size_t readableSize = 1;
 
 //==============================================================================
 
@@ -58,6 +58,9 @@ void TestStream() {
   TEST_ASSERT (stream.Write ("Test") == ESP_OK);
   TEST_ASSERT (stream.Write (buffer, bufferSize, 1) == ESP_ERR_INVALID_ARG);
   TEST_ASSERT (stream.Write (buffer, 0, bufferSize + 1) == ESP_ERR_INVALID_SIZE);
+
+  readableSize = 0;
+  TEST_ASSERT (stream.FlushReadBuffer (5000 / portTICK_PERIOD_MS) == ESP_OK);
 
   TEST_ASSERT (stream.Unlock() == ESP_OK);
 }

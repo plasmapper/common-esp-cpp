@@ -1,6 +1,7 @@
 #include "pl_stream.h"
 #include "pl_lock_guard.h"
 #include "esp_check.h"
+#include "freertos/task.h"
 
 //==============================================================================
 
@@ -73,6 +74,24 @@ esp_err_t Stream::Write (const std::string& src) {
   return Write (src.c_str(), src.size());
 }
 
+//==============================================================================
+
+esp_err_t Stream::FlushReadBuffer (TickType_t time) {
+  TickType_t tick = xTaskGetTickCount();
+  TickType_t startTick = tick;
+  
+  while (1) {
+    if (auto readableSize = GetReadableSize()) {
+      ESP_RETURN_ON_ERROR (Read (NULL, readableSize), TAG, "read failed");
+      startTick = tick;
+    }
+    if (tick - startTick >= time)
+      return ESP_OK;
+    
+    vTaskDelay (1);
+    tick = xTaskGetTickCount();
+  }
+}
 //==============================================================================
 
 }
