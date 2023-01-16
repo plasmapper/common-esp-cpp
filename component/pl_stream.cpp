@@ -55,7 +55,13 @@ esp_err_t Stream::ReadUntil (Buffer& dest, size_t offset, char termChar, size_t*
 //==============================================================================
 
 esp_err_t Stream::ReadUntil (char termChar) {
-  return ReadUntil (NULL, SIZE_MAX, termChar, NULL);
+  LockGuard lg (*this);
+  while (1) {
+    uint8_t byte;
+    ESP_RETURN_ON_ERROR (Read (&byte, 1), TAG, "read byte failed");
+    if (byte == termChar)
+      return ESP_OK;
+  }
 }
 
 //==============================================================================
