@@ -31,27 +31,32 @@ esp_err_t Stream::ReadUntil (void* dest, size_t maxSize, char termChar, size_t* 
   TickType_t startTick = xTaskGetTickCount();
   TickType_t timeout = GetReadTimeout();
 
-  for (; tempSize < maxSize; tempSize++) {
-    if (GetReadableSize()) {
-      ESP_RETURN_ON_ERROR (Read (&byte, 1), TAG, "read byte failed");
+  while (1) {
+    while (auto readableSize = GetReadableSize()) {
+      for (size_t i = 0; i < readableSize; i++) {
+        if (tempSize >= maxSize)
+          return ESP_ERR_INVALID_SIZE;
 
-      if (dest)
-        ((uint8_t*)dest)[tempSize] = byte;
-      if (byte == termChar) {
+        ESP_RETURN_ON_ERROR (Read (&byte, 1), TAG, "read byte failed");
+
+        if (dest)
+          ((uint8_t*)dest)[tempSize] = byte;
+
+        tempSize++;
+
         if (size)
-          *size = tempSize + 1;
-        return ESP_OK;
+          *size = tempSize;
+        
+        if (byte == termChar)
+          return ESP_OK;
       }
     }
 
+    vTaskDelay (1);
     if (xTaskGetTickCount() - startTick >= timeout)
       return ESP_ERR_TIMEOUT;
   }
 
-  if (size)
-    *size = tempSize;
-  
-  ESP_RETURN_ON_ERROR (ESP_ERR_INVALID_SIZE, TAG, "maxSize reached and no termChar read");
   return ESP_OK;
 }
 
@@ -67,13 +72,7 @@ esp_err_t Stream::ReadUntil (Buffer& dest, size_t offset, char termChar, size_t*
 //==============================================================================
 
 esp_err_t Stream::ReadUntil (char termChar) {
-  LockGuard lg (*this);
-  while (1) {
-    uint8_t byte;
-    ESP_RETURN_ON_ERROR (Read (&byte, 1), TAG, "read byte failed");
-    if (byte == termChar)
-      return ESP_OK;
-  }
+  return ReadUntil(NULL, SIZE_MAX, termChar, NULL);
 }
 
 //==============================================================================
