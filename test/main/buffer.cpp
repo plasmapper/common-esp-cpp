@@ -50,4 +50,16 @@ void TestBuffer() {
     TEST_ASSERT_EQUAL (dataToWrite[1], buffer5.data[e].y);
     TEST_ASSERT_EQUAL (dataToWrite[2], buffer5.data[e].z);
   }
+
+  PL::Buffer buffer6(10);
+  for (int i = 0; i < buffer6.size; i++) {
+    ((uint8_t*)buffer6.data)[i] = i + 1;
+    TEST_ASSERT (((uint8_t*)buffer6.data)[i] != 0);
+  }
+
+  buffer6.Clear();
+
+  for (int i = 0; i < buffer6.size; i++) {
+    TEST_ASSERT (((uint8_t*)buffer6.data)[i] == 0);
+  }
 }

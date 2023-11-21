@@ -37,6 +37,9 @@ public:
   esp_err_t Lock (TickType_t timeout = portMAX_DELAY) override;
   esp_err_t Unlock() override;
 
+  /// @brief Set all bytes of the buffer data to zero
+  void Clear();
+
 private:
   std::shared_ptr<Lockable> lockable;
   bool preallocated;

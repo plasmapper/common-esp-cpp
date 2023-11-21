@@ -1,5 +1,7 @@
 #include "pl_buffer.h"
 #include "pl_mutex.h"
+#include "pl_lock_guard.h"
+#include "string.h"
 #include "esp_check.h"
 
 //==============================================================================
@@ -46,6 +48,14 @@ esp_err_t Buffer::Lock (TickType_t timeout) {
 esp_err_t Buffer::Unlock() {
   ESP_RETURN_ON_ERROR (lockable->Unlock(), TAG, "unlock failed");
   return ESP_OK;
+}
+
+//==============================================================================
+
+void Buffer::Clear() {
+  LockGuard lg (*this);
+
+  memset(data, 0, size);
 }
 
 //==============================================================================
