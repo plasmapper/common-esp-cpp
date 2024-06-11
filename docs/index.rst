@@ -3,6 +3,8 @@ Common Component
 
 .. |COMPONENT| replace:: common
 
+.. |VERSION| replace:: 1.0.0
+
 .. include:: ../../../installation.rst
 
 .. include:: ../../../sdkconfig_common.rst
