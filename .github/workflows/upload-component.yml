@@ -16,10 +16,10 @@ jobs:
           cp ./CHANGELOG.md ./component/CHANGELOG.md
 
       - name: Upload
+        working-directory: ./component
         uses: espressif/upload-components-ci-action@v1
         with:
           name: "pl_common"
           namespace: "plasmapper"
-          directories: "component"
           api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}
           dry_run: true
