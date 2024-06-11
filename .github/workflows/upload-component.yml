@@ -2,6 +2,9 @@ name: Upload component
 on:
   workflow_dispatch:
 
+env:
+  COMPONENT_NAME: pl_common
+
 jobs:
   upload:
     runs-on: ubuntu-latest
@@ -15,11 +18,14 @@ jobs:
           cp ./README.md ./component/README.md
           cp ./CHANGELOG.md ./component/CHANGELOG.md
 
+      - name: Rename component directory
+        run: 
+          mv ./component ./$COMPONENT_NAME
+
       - name: Upload
-        working-directory: ./component
         uses: espressif/upload-components-ci-action@v1
         with:
-          name: "pl_common"
+          directories: ${{env.COMPONENT_NAME}}
           namespace: "plasmapper"
           api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}
           dry_run: true
