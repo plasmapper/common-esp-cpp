@@ -28,4 +28,3 @@ jobs:
           directories: ${{env.COMPONENT_NAME}}
           namespace: "plasmapper"
           api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}
-          dry_run: true
