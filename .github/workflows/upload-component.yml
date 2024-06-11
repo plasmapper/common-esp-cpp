@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Copy supplementary files
-        run:
+        run: |
           cp ./LICENSE ./component/LICENSE
           cp ./README.md ./component/README.md
           cp ./CHANGELOG.md ./component/CHANGELOG.md
