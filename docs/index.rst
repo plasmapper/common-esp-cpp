@@ -3,6 +3,8 @@ Common Component
 
 .. |COMPONENT| replace:: common
 
+.. |ESP_IDF_VERSION| replace:: 5.0
+
 .. |VERSION| replace:: 1.0.0
 
 .. include:: ../../../installation.rst
