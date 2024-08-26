@@ -7,11 +7,11 @@ void TestEvent() {
   EventGenerator eventGenerator;
   auto eventHandler1 = std::make_shared<EventHandler1>();
   auto eventHandler2 = std::make_shared<EventHandler2>();
-  eventGenerator.event.AddHandler (eventHandler1);
-  eventGenerator.event.AddHandler (eventHandler2, &EventHandler2::EventHandlingFunction);
+  eventGenerator.event.AddHandler(eventHandler1);
+  eventGenerator.event.AddHandler(eventHandler2, &EventHandler2::EventHandlingFunction);
   // Check that same handler can be only added once to the event
-  eventGenerator.event.AddHandler (eventHandler1);
-  eventGenerator.event.AddHandler (eventHandler2, &EventHandler2::EventHandlingFunction);
+  eventGenerator.event.AddHandler(eventHandler1);
+  eventGenerator.event.AddHandler(eventHandler2, &EventHandler2::EventHandlingFunction);
   
   eventGenerator.EventGeneratingFunction();
   TEST_ASSERT(eventHandler1->GetLastEventGenerator() == &eventGenerator);
@@ -21,14 +21,14 @@ void TestEvent() {
   TEST_ASSERT(eventHandler2->GetLastEventValue() == eventGenerator.GetLastEventValue());
   TEST_ASSERT(eventHandler2->GetNumberOfEventsHandled() == 1);
 
-  eventGenerator.event.RemoveHandler (eventHandler1);
+  eventGenerator.event.RemoveHandler(eventHandler1);
   eventGenerator.EventGeneratingFunction();
   TEST_ASSERT(eventHandler1->GetLastEventValue() != eventGenerator.GetLastEventValue());
   TEST_ASSERT(eventHandler1->GetNumberOfEventsHandled() == 1);
   TEST_ASSERT(eventHandler2->GetLastEventValue() == eventGenerator.GetLastEventValue());
   TEST_ASSERT(eventHandler2->GetNumberOfEventsHandled() == 2);
 
-  eventGenerator.event.RemoveHandler (eventHandler2, &EventHandler2::EventHandlingFunction);
+  eventGenerator.event.RemoveHandler(eventHandler2, &EventHandler2::EventHandlingFunction);
   eventGenerator.EventGeneratingFunction();
   TEST_ASSERT(eventHandler2->GetLastEventValue() != eventGenerator.GetLastEventValue());
   TEST_ASSERT(eventHandler2->GetNumberOfEventsHandled() == 2);
@@ -36,12 +36,12 @@ void TestEvent() {
 
 //==============================================================================
 
-EventGenerator::EventGenerator() : event (*this) {}
+EventGenerator::EventGenerator() : event(*this) {}
 
 //==============================================================================
 
 void EventGenerator::EventGeneratingFunction() {
-  event.Generate (++lastEventValue);
+  event.Generate(++lastEventValue);
 }
 
 //==============================================================================
@@ -52,7 +52,7 @@ int EventGenerator::GetLastEventValue() {
 
 //==============================================================================
 
-void EventHandler1::HandleEvent (EventGenerator& eventGenerator, int value) {
+void EventHandler1::HandleEvent(EventGenerator& eventGenerator, int value) {
   lastEventGenerator = &eventGenerator;
   lastEventValue = value;
   numberOfEventsHandled++;
@@ -78,7 +78,7 @@ int EventHandler1::GetNumberOfEventsHandled() {
 
 //==============================================================================
 
-void EventHandler2::EventHandlingFunction (EventGenerator& eventGenerator, int value) {
+void EventHandler2::EventHandlingFunction(EventGenerator& eventGenerator, int value) {
   lastEventGenerator = &eventGenerator;
   lastEventValue = value;
   numberOfEventsHandled++;

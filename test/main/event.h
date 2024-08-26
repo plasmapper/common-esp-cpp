@@ -21,7 +21,7 @@ class EventHandler1 : public PL::EventHandler<EventGenerator, int> {
 public:
   EventHandler1() {}
 
-  void HandleEvent (EventGenerator& eventGenerator, int value) override;
+  void HandleEvent(EventGenerator& eventGenerator, int value) override;
   EventGenerator* GetLastEventGenerator();
   int GetLastEventValue();
   int GetNumberOfEventsHandled();
@@ -38,7 +38,7 @@ class EventHandler2 {
 public:
   EventHandler2() {}
 
-  void EventHandlingFunction (EventGenerator& eventGenerator, int value);
+  void EventHandlingFunction(EventGenerator& eventGenerator, int value);
   EventGenerator* GetLastEventGenerator();
   int GetLastEventValue();
   int GetNumberOfEventsHandled();

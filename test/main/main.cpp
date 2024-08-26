@@ -10,11 +10,11 @@
 
 extern "C" void app_main(void) {
   UNITY_BEGIN();
-  RUN_TEST (TestBuffer);
-  RUN_TEST (TestEvent);
-  RUN_TEST (TestHardwareInterface);
-  RUN_TEST (TestLock);
-  RUN_TEST (TestServer);
-  RUN_TEST (TestStream);
+  RUN_TEST(TestBuffer);
+  RUN_TEST(TestEvent);
+  RUN_TEST(TestHardwareInterface);
+  RUN_TEST(TestLock);
+  RUN_TEST(TestServer);
+  RUN_TEST(TestStream);
   UNITY_END();
 }

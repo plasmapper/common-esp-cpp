@@ -15,7 +15,7 @@ public:
   /// @brief Event handler callback method
   /// @param source event source
   /// @param ...args event arguments
-  virtual void HandleEvent (Source& source, Args... args) = 0;
+  virtual void HandleEvent(Source& source, Args... args) = 0;
 };
 
 //==============================================================================

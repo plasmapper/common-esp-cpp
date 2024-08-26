@@ -11,13 +11,13 @@ namespace PL {
 /// @brief Mutex class
 class Mutex : public Lockable {
 public:
-  /// @brief Create a mutex
+  /// @brief Creates a mutex
   Mutex();
   ~Mutex();
-  Mutex (const Mutex&) = delete;
-  Mutex& operator= (const Mutex&) = delete;
+  Mutex(const Mutex&) = delete;
+  Mutex& operator=(const Mutex&) = delete;
 
-  esp_err_t Lock (TickType_t timeout = portMAX_DELAY) override;
+  esp_err_t Lock(TickType_t timeout = portMAX_DELAY) override;
   esp_err_t Unlock() override;
 
 private:

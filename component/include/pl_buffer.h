@@ -16,28 +16,28 @@ public:
   /// @brief buffer data size
   const size_t size;
 
-  /// @brief Create a buffer and allocate memory for its data
+  /// @brief Creates a buffer and allocates memory for its data
   /// @param size buffer data size
-  Buffer (size_t size);
-  ~Buffer ();
-  Buffer (const Buffer&) = delete;
-  Buffer& operator= (const Buffer&) = delete;
+  Buffer(size_t size);
+  ~Buffer();
+  Buffer(const Buffer&) = delete;
+  Buffer& operator=(const Buffer&) = delete;
   
-  /// @brief Create a buffer with preallocated data
+  /// @brief Creates a buffer with preallocated data
   /// @param data buffer data pointer
   /// @param size buffer data size
-  Buffer (void* data, size_t size);
+  Buffer(void* data, size_t size);
 
-  /// @brief Create a buffer with preallocated data and shared lockable
+  /// @brief Creates a buffer with preallocated data and shared lockable
   /// @param data buffer data pointer
   /// @param size buffer data size
   /// @param lockable lockable object that is locked when this buffer is locked
-  Buffer (void* data, size_t size, std::shared_ptr<Lockable> lockable);
+  Buffer(void* data, size_t size, std::shared_ptr<Lockable> lockable);
 
-  esp_err_t Lock (TickType_t timeout = portMAX_DELAY) override;
+  esp_err_t Lock(TickType_t timeout = portMAX_DELAY) override;
   esp_err_t Unlock() override;
 
-  /// @brief Set all bytes of the buffer data to zero
+  /// @brief Sets all bytes of the buffer data to zero
   void Clear();
 
 private:

@@ -4,7 +4,7 @@
 
 class HardwareInterface : public PL::HardwareInterface {
 public:
-  esp_err_t Lock (TickType_t timeout = portMAX_DELAY) override;
+  esp_err_t Lock(TickType_t timeout = portMAX_DELAY) override;
   esp_err_t Unlock() override;
 
   esp_err_t Initialize() override;
@@ -22,8 +22,8 @@ private:
 
 class HardwareInterfaceEventHandler {
 public:
-  void OnHardwareInterfaceEnabled (PL::HardwareInterface& interface);
-  void OnHardwareInterfaceDisabled (PL::HardwareInterface& interface);
+  void OnHardwareInterfaceEnabled(PL::HardwareInterface& interface);
+  void OnHardwareInterfaceDisabled(PL::HardwareInterface& interface);
   bool IsHardwareInterfaceEnabled();
 
 private:

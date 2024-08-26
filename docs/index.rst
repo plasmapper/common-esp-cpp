@@ -5,7 +5,7 @@ Common Component
 
 .. |ESP_IDF_VERSION| replace:: 5.0
 
-.. |VERSION| replace:: 1.0.0
+.. |VERSION| replace:: 1.1.0
 
 .. include:: ../../../installation.rst
 
@@ -43,6 +43,10 @@ Features
     :cpp:func:`PL::Server::Enable`, :cpp:func:`PL::Server::Disable`,
     :cpp:func:`PL::Server::IsEnabled`, :cpp:func:`PL::Server::Lock` and :cpp:func:`PL::Server::Unlock`.
 
+Thread safety
+-------------
+
+Class method thread safety is implemented by having the :cpp:class:`PL::Lockable` as a base class and creating the class object lock guard at the beginning of the methods.
 
 API reference
 -------------

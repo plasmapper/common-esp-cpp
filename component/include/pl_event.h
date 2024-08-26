@@ -17,43 +17,43 @@ namespace PL {
 template <class Source, class... Args>
 class Event {
 public:
-  /// @brief Create an event
+  /// @brief Creates an event
   /// @param source event source
-  Event (Source& source) : source (source) {}
+  Event(Source& source) : source(source) {}
   ~Event() {}
-  Event (const Event&) = delete;
-  Event& operator= (const Event&) = delete;
+  Event(const Event&) = delete;
+  Event& operator=(const Event&) = delete;
 
-  /// @brief Add handler to the event
+  /// @brief Adds handler to the event
   /// @param handler event handler
-  void AddHandler (std::shared_ptr<EventHandler<Source, Args...>> handler) {
-    LockGuard lg (mutex);
-    RemoveHandler (handler);
+  void AddHandler(std::shared_ptr<EventHandler<Source, Args...>> handler) {
+    LockGuard lg(mutex);
+    RemoveHandler(handler);
     handlers.push_back(handler);
   }
 
-  /// @brief Add handler to the event
+  /// @brief Adds handler to the event
   /// @tparam HandlerClass Event handler class
   /// @param handler Event handler object
   /// @param method Event handler object callback method
   template<class HandlerClass>
-  void AddHandler (std::shared_ptr<HandlerClass> handler, void(HandlerClass::*method)(Source&, Args...)) {
-    LockGuard lg (mutex);
-    RemoveHandler (handler, method);
+  void AddHandler(std::shared_ptr<HandlerClass> handler, void(HandlerClass::*method)(Source&, Args...)) {
+    LockGuard lg(mutex);
+    RemoveHandler(handler, method);
     auto methodHandler = std::make_shared<MethodEventHandler<HandlerClass>>(handler, method);
     methodHandlers.push_back(methodHandler);
     AddHandler(methodHandler);
   }
 
-  /// @brief Remove handler from the event
+  /// @brief Removes handler from the event
   /// @param handlerToRemove event handler
-  void RemoveHandler (std::shared_ptr<EventHandler<Source, Args...>> handlerToRemove) {
-    LockGuard lg (mutex);
+  void RemoveHandler(std::shared_ptr<EventHandler<Source, Args...>> handlerToRemove) {
+    LockGuard lg(mutex);
     for (auto handler = handlers.begin(); handler != handlers.end();) {
       bool handlerErased = false;
       if (auto handlerLocked = handler->lock()) {
         if (handlerLocked == handlerToRemove) {
-          handlers.erase (handler);
+          handlers.erase(handler);
           handlerErased = true;
         }
       }
@@ -62,19 +62,19 @@ public:
     }
   }
 
-  /// @brief Remove handler from the event
+  /// @brief Removes handler from the event
   /// @tparam HandlerClass Event handler class
   /// @param handler Event handler object
   /// @param method Event handler object callback method
   template<class HandlerClass>
-  void RemoveHandler (std::shared_ptr<HandlerClass> handlerToRemove, void(HandlerClass::*method)(Source&, Args...)) {
-    LockGuard lg (mutex);
+  void RemoveHandler(std::shared_ptr<HandlerClass> handlerToRemove, void(HandlerClass::*method)(Source&, Args...)) {
+    LockGuard lg(mutex);
     for (auto handler = handlers.begin(); handler != handlers.end();) {
       bool handlerErased = false;
       if (auto handlerLocked = handler->lock()) {
         if (auto handlerCast = dynamic_cast<MethodEventHandler<HandlerClass>*>(handlerLocked.get())) {
           if (handlerToRemove == handlerCast->handler.lock() && method == handlerCast->method) {
-            handlers.erase (handler);
+            handlers.erase(handler);
             handlerErased = true;
           }
         }
@@ -84,10 +84,10 @@ public:
     }
   }
 
-  /// @brief Generate the event
+  /// @brief Generates the event
   /// @param ...args event arguments
-  void Generate (Args... args) {
-    LockGuard lg (mutex);
+  void Generate(Args... args) {
+    LockGuard lg(mutex);
     for (auto& handler : handlers) {
       if (auto lockedHandler = handler.lock())
         lockedHandler->HandleEvent(source, args...);
@@ -106,10 +106,10 @@ private:
     std::weak_ptr<HandlerClass> handler;
     void(HandlerClass::*method)(Source&, Args...);
 
-    MethodEventHandler (std::shared_ptr<HandlerClass> handler, void(HandlerClass::*method)(Source&, Args...)) :
-      handler (handler), method (method) {}
+    MethodEventHandler(std::shared_ptr<HandlerClass> handler, void(HandlerClass::*method)(Source&, Args...)) :
+      handler(handler), method(method) {}
       
-    void HandleEvent (Source& source, Args... args) override {
+    void HandleEvent(Source& source, Args... args) override {
       if (auto handlerLocked = handler.lock())
         ((*handlerLocked).*method)(source, args...);
     }

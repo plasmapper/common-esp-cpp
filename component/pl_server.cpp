@@ -6,19 +6,19 @@ namespace PL {
 
 //==============================================================================
 
-Server::Server() : enabledEvent (*this), disabledEvent (*this) {}
+Server::Server() : enabledEvent(*this), disabledEvent(*this) {}
 
 //==============================================================================
 
 std::string Server::GetName() {
-  LockGuard lg (*this);
+  LockGuard lg(*this);
   return name;
 }
 
 //==============================================================================
 
-void Server::SetName (const std::string& name) {
-  LockGuard lg (*this);
+void Server::SetName(const std::string& name) {
+  LockGuard lg(*this);
   this->name = name;
 }
 
