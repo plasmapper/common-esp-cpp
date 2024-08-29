@@ -5,7 +5,7 @@ Common Component
 
 .. |ESP_IDF_VERSION| replace:: 5.0
 
-.. |VERSION| replace:: 1.2.0
+.. |VERSION| replace:: 1.2.1
 
 .. include:: ../../../installation.rst
 
@@ -67,3 +67,4 @@ API reference
   api/stream
   api/hardware_interface
   api/server
+  api/stream_server

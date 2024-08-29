@@ -9,3 +9,4 @@
 #include "pl_server.h"
 #include "pl_stream.h"
 #include "pl_typed_buffer.h"
+#include "pl_stream_server.h"
