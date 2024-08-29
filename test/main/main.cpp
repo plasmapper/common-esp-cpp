@@ -5,6 +5,7 @@
 #include "lock.h"
 #include "server.h"
 #include "stream.h"
+#include "stream_server.h"
 
 //==============================================================================
 
@@ -16,5 +17,6 @@ extern "C" void app_main(void) {
   RUN_TEST(TestLock);
   RUN_TEST(TestServer);
   RUN_TEST(TestStream);
+  RUN_TEST(TestStreamServer);
   UNITY_END();
 }

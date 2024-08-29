@@ -5,7 +5,7 @@ Common Component
 
 .. |ESP_IDF_VERSION| replace:: 5.0
 
-.. |VERSION| replace:: 1.1.0
+.. |VERSION| replace:: 1.2.0
 
 .. include:: ../../../installation.rst
 
@@ -42,6 +42,9 @@ Features
 10. :cpp:class:`PL::Server` - a base class for any server. Descendant classes should override
     :cpp:func:`PL::Server::Enable`, :cpp:func:`PL::Server::Disable`,
     :cpp:func:`PL::Server::IsEnabled`, :cpp:func:`PL::Server::Lock` and :cpp:func:`PL::Server::Unlock`.
+11. :cpp:class:`PL::StreamServer` - a :cpp:class:`PL::Server` implementation using a :cpp:class:`PL::Stream` for communication with client.
+    The descendant class should override :cpp:func:`PL::StreamServer::HandleRequest` to handle the client request.
+    :cpp:func:`PL::StreamServer::HandleRequest` is only called when there is incoming data in the internal buffer.
 
 Thread safety
 -------------
