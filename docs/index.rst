@@ -51,6 +51,8 @@ Thread safety
 
 Class method thread safety is implemented by having the :cpp:class:`PL::Lockable` as a base class and creating the class object lock guard at the beginning of the methods.
 
+:cpp:class:`PL::StreamServer` task method locks both the :cpp:class:`PL::StreamServer` and the :cpp:class:`PL::Stream` objects for the duration of the transaction. 
+
 API reference
 -------------
 
