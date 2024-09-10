@@ -1,4 +1,4 @@
-version: "1.2.1"
+version: "1.2.2"
 license: "MIT"
 description: Common C++ class component for ESP-IDF
 url: https://github.com/plasmapper/common-esp-cpp

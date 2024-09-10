@@ -11,14 +11,14 @@ Server::Server() : enabledEvent(*this), disabledEvent(*this) {}
 //==============================================================================
 
 std::string Server::GetName() {
-  LockGuard lg(*this);
+  LockGuard lg(mutex);
   return name;
 }
 
 //==============================================================================
 
 void Server::SetName(const std::string& name) {
-  LockGuard lg(*this);
+  LockGuard lg(mutex);
   this->name = name;
 }
 

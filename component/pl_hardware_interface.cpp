@@ -11,14 +11,14 @@ HardwareInterface::HardwareInterface() : enabledEvent(*this), disabledEvent(*thi
 //==============================================================================
 
 std::string HardwareInterface::GetName() {
-  LockGuard lg(*this);
+  LockGuard lg(mutex);
   return name;
 }
 
 //==============================================================================
 
 void HardwareInterface::SetName(const std::string& name) {
-  LockGuard lg(*this);
+  LockGuard lg(mutex);
   this->name = name;
 }
 

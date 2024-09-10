@@ -39,6 +39,7 @@ public:
   void SetName(const std::string& name);
 
 private:
+  Mutex mutex;
   std::string name;
 };
 
