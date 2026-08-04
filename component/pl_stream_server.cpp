@@ -57,10 +57,12 @@ esp_err_t StreamServer::Enable() {
     return ESP_OK;
   
   disable = false;
-  if (xTaskCreatePinnedToCore(TaskCode, GetName().c_str(), taskParameters.stackDepth, this, taskParameters.priority, &taskHandle, taskParameters.coreId) != pdPASS) {
+  TaskHandle_t handle = NULL;
+  if (xTaskCreatePinnedToCore(TaskCode, GetName().c_str(), taskParameters.stackDepth, this, taskParameters.priority, &handle, taskParameters.coreId) != pdPASS) {
     taskHandle = NULL;
     ESP_RETURN_ON_ERROR(ESP_FAIL, TAG, "task create failed");
   }
+  taskHandle = handle;
   enabledEvent.Generate();
   return ESP_OK;
 }

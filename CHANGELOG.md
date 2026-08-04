@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Event handler memory leak.
 - Missing lock in stream read buffer flushing.
+- Unsynchronized stream server task state flags.
 
 ## [1.2.2] - 2024-09-10
 ### Changed

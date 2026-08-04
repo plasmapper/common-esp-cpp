@@ -2,6 +2,7 @@
 #include "pl_common_types.h"
 #include "pl_stream.h"
 #include "pl_server.h"
+#include <atomic>
 
 //==============================================================================
 
@@ -54,8 +55,8 @@ private:
   Mutex mutex;
   std::shared_ptr<Stream> stream;
   TaskParameters taskParameters = defaultTaskParameters;
-  TaskHandle_t taskHandle = NULL;
-  bool disable = false;
+  std::atomic<TaskHandle_t> taskHandle = NULL;
+  std::atomic<bool> disable = false;
   bool disableFromRequest = false;
   bool enableFromRequest = false;
 
