@@ -3,6 +3,7 @@
 #include "pl_lock_guard.h"
 #include "string.h"
 #include "esp_check.h"
+#include <cstdlib>
 
 //==============================================================================
 
@@ -14,7 +15,12 @@ namespace PL {
 
 //==============================================================================
 
-Buffer::Buffer(size_t size) : data(malloc(size)), size(size), lockable(std::make_shared<Mutex>()), preallocated(false) {}
+Buffer::Buffer(size_t size) : data(malloc(size)), size(size), lockable(std::make_shared<Mutex>()), preallocated(false) {
+  if (!data) {
+    ESP_LOGE(TAG, "allocation failed");
+    abort();
+  }
+}
 
 //==============================================================================
 
@@ -35,12 +41,9 @@ Buffer::~Buffer() {
 
 esp_err_t Buffer::Lock(TickType_t timeout) {
   esp_err_t error = lockable->Lock(timeout);
-  if (error == ESP_OK)
-    return ESP_OK;
-  if (error == ESP_ERR_TIMEOUT && timeout == 0)
-    return ESP_ERR_TIMEOUT;
-  ESP_RETURN_ON_ERROR(error, TAG, "lock failed");
-  return ESP_OK;
+  if (error != ESP_OK && (error != ESP_ERR_TIMEOUT || timeout != 0))
+    ESP_LOGE(TAG, "lock failed");
+  return error;
 }
 
 //==============================================================================
