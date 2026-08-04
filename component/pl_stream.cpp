@@ -94,9 +94,10 @@ esp_err_t Stream::Write(const std::string& src) {
 //==============================================================================
 
 esp_err_t Stream::FlushReadBuffer(TickType_t time) {
+  LockGuard lg(*this);
   TickType_t tick = xTaskGetTickCount();
   TickType_t startTick = tick;
-  
+
   while (1) {
     if (auto readableSize = GetReadableSize()) {
       ESP_RETURN_ON_ERROR(Read(NULL, readableSize), TAG, "read failed");
