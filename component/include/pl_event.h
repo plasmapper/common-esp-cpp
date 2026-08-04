@@ -76,6 +76,15 @@ public:
           if (handlerToRemove == handlerCast->handler.lock() && method == handlerCast->method) {
             handlers.erase(handler);
             handlerErased = true;
+            for (auto methodHandler = methodHandlers.begin(); methodHandler != methodHandlers.end();) {
+              bool methodHandlerErased = false;
+              if (methodHandler->get() == handlerCast) {
+                methodHandlers.erase(methodHandler);
+                methodHandlerErased = true;
+              }
+              if (!methodHandlerErased)
+                methodHandler++;
+            }
           }
         }
       }
