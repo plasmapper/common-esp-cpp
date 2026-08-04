@@ -124,7 +124,8 @@ void StreamServer::TaskCode(void* parameters) {
 
   while (!server.disable) {
     if (server.Lock(0) == ESP_OK) {
-      Stream& stream = *server.GetStream();
+      std::shared_ptr<Stream> streamPtr = server.GetStream();
+      Stream& stream = *streamPtr;
 
       if (firstRun) {
         LockGuard lg(stream);
