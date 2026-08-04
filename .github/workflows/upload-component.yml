@@ -25,6 +25,6 @@ jobs:
       - name: Upload
         uses: espressif/upload-components-ci-action@v2
         with:
-          directories: ${{env.COMPONENT_NAME}}
+          components: "${{env.COMPONENT_NAME}}: ${{env.COMPONENT_NAME}}" # component_name: directory
           namespace: "plasmapper"
           api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}
