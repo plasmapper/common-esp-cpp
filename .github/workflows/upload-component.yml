@@ -27,4 +27,3 @@ jobs:
         with:
           components: "${{env.COMPONENT_NAME}}"
           namespace: "plasmapper"
-          api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}
