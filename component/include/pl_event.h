@@ -53,7 +53,7 @@ public:
       bool handlerErased = false;
       if (auto handlerLocked = handler->lock()) {
         if (handlerLocked == handlerToRemove) {
-          handlers.erase(handler);
+          handler = handlers.erase(handler);
           handlerErased = true;
         }
       }
@@ -74,12 +74,12 @@ public:
       if (auto handlerLocked = handler->lock()) {
         if (auto handlerCast = dynamic_cast<MethodEventHandler<HandlerClass>*>(handlerLocked.get())) {
           if (handlerToRemove == handlerCast->handler.lock() && method == handlerCast->method) {
-            handlers.erase(handler);
+            handler = handlers.erase(handler);
             handlerErased = true;
             for (auto methodHandler = methodHandlers.begin(); methodHandler != methodHandlers.end();) {
               bool methodHandlerErased = false;
               if (methodHandler->get() == handlerCast) {
-                methodHandlers.erase(methodHandler);
+                methodHandler = methodHandlers.erase(methodHandler);
                 methodHandlerErased = true;
               }
               if (!methodHandlerErased)
