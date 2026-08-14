@@ -5,6 +5,7 @@
 
 const size_t bufferSize = 10;
 const TickType_t readTimeout = 10;
+const TickType_t writeTimeout = 20;
 size_t readableSize = 1;
 
 //==============================================================================
@@ -17,9 +18,13 @@ void TestStream() {
 
   TEST_ASSERT(stream.Lock() == ESP_OK);
 
+  TEST_ASSERT_EQUAL(readableSize, stream.GetReadableSize());
+
   TEST_ASSERT(stream.SetReadTimeout(readTimeout) == ESP_OK);
   TEST_ASSERT_EQUAL(readTimeout, stream.GetReadTimeout());
-  TEST_ASSERT_EQUAL(readableSize, stream.GetReadableSize());
+
+  TEST_ASSERT(stream.SetWriteTimeout(writeTimeout) == ESP_OK);
+  TEST_ASSERT_EQUAL(writeTimeout, stream.GetWriteTimeout());
 
   TEST_ASSERT(stream.Read(tempData, bufferSize) == ESP_OK);
   for (size_t i = 0; i < bufferSize; i++)
@@ -112,6 +117,21 @@ TickType_t Stream::GetReadTimeout() {
 esp_err_t Stream::SetReadTimeout(TickType_t readTimeout) {
   PL::LockGuard lg(*this);
   this->readTimeout = readTimeout;
+  return ESP_OK;
+}
+
+//==============================================================================
+
+TickType_t Stream::GetWriteTimeout() {
+  PL::LockGuard lg(*this);
+  return writeTimeout;
+}
+
+//==============================================================================
+
+esp_err_t Stream::SetWriteTimeout(TickType_t writeTimeout) {
+  PL::LockGuard lg(*this);
+  this->writeTimeout = writeTimeout;
   return ESP_OK;
 }
 

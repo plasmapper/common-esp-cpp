@@ -79,10 +79,19 @@ public:
   /// @return timeout in FreeRTOS ticks
   virtual TickType_t GetReadTimeout() = 0;
 
-  /// @brief Sets the read operation timeout 
+  /// @brief Sets the read operation timeout
   /// @param timeout timeout in FreeRTOS ticks
   /// @return error code
   virtual esp_err_t SetReadTimeout(TickType_t timeout) = 0;
+
+  /// @brief Gets the write operation timeout
+  /// @return timeout in FreeRTOS ticks
+  virtual TickType_t GetWriteTimeout() = 0;
+
+  /// @brief Sets the write operation timeout
+  /// @param timeout timeout in FreeRTOS ticks
+  /// @return error code
+  virtual esp_err_t SetWriteTimeout(TickType_t timeout) = 0;
 };
 
 //==============================================================================

@@ -113,6 +113,18 @@ esp_err_t StreamServerStream::SetReadTimeout(TickType_t timeout) {
 
 //==============================================================================
 
+TickType_t StreamServerStream::GetWriteTimeout() {
+  return 0;
+}
+
+//==============================================================================
+
+esp_err_t StreamServerStream::SetWriteTimeout(TickType_t timeout) {
+  return ESP_OK;
+}
+
+//==============================================================================
+
 esp_err_t StreamServer::HandleRequest(PL::Stream& stream) {
   ESP_RETURN_ON_ERROR(stream.Read(receivedData, sizeof(receivedData)), TAG, "stream read failed");
   if (receivedData[0] == disableDataToSend[0])
