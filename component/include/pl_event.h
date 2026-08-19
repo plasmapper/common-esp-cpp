@@ -97,10 +97,11 @@ public:
   /// @param ...args event arguments
   void Generate(Args... args) {
     LockGuard lg(mutex);
-    for (auto& handler : handlers) {
+    auto handlersSnapshot = handlers;
+    for (auto& handler : handlersSnapshot) {
       if (auto lockedHandler = handler.lock())
         lockedHandler->HandleEvent(source, args...);
-    }      
+    }
   }
 
 private:
