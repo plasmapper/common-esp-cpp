@@ -17,6 +17,7 @@ public:
 
   /// @brief Creates a server
   Server();
+  virtual ~Server() = default;
 
   /// @brief Enables the server
   /// @return error code
