@@ -20,9 +20,9 @@ StreamServer::StreamServer(std::shared_ptr<Stream> stream) : stream(stream) {}
 //==============================================================================
 
 StreamServer::~StreamServer() {
-  while (taskHandle) {
-    disable = true;
-    vTaskDelay(1);
+  if (taskHandle) {
+    ESP_LOGE(TAG, "StopTask was not called by the derived class destructor");
+    StopTask();
   }
 }
 
@@ -75,11 +75,8 @@ esp_err_t StreamServer::Disable() {
   }
   if (!taskHandle)
     return ESP_OK;
-  
-  while (taskHandle) {
-    disable = true;
-    vTaskDelay(1);
-  }
+
+  ESP_RETURN_ON_ERROR(StopTask(), TAG, "stop task failed");
   disabledEvent.Generate();
   return ESP_OK;
 }
@@ -113,6 +110,19 @@ esp_err_t StreamServer::SetTaskParameters(const TaskParameters& taskParameters) 
   LockGuard lg(*this);
   this->taskParameters = taskParameters;
   ESP_RETURN_ON_ERROR(RestartIfEnabled(), TAG, "restart failed");
+  return ESP_OK;
+}
+
+//==============================================================================
+
+esp_err_t StreamServer::StopTask() {
+  ESP_RETURN_ON_FALSE(taskHandle != xTaskGetCurrentTaskHandle(), ESP_ERR_INVALID_STATE, TAG,
+                      "stop task called from the server task itself");
+  LockGuard lg(*this);
+  while (taskHandle) {
+    disable = true;
+    vTaskDelay(1);
+  }
   return ESP_OK;
 }
 

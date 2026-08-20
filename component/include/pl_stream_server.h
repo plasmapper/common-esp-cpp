@@ -19,6 +19,9 @@ public:
   /// @brief Creates a stream server
   /// @param stream stream
   StreamServer(std::shared_ptr<Stream> stream);
+
+  /// @note Every derived class must call StopTask as the first statement of its
+  /// own destructor so that TaskCode does not call HandleRequest on a partially destroyed object.
   ~StreamServer();
   StreamServer(const StreamServer&) = delete;
   StreamServer& operator=(const StreamServer&) = delete;
@@ -46,6 +49,12 @@ public:
   esp_err_t SetTaskParameters(const TaskParameters& taskParameters);
 
 protected:
+  /// @brief Stops the server task and waits for it to exit
+  /// @note Must be called as the first statement of the destructor of every derived class
+  /// so that TaskCode does not call HandleRequest on a partially destroyed object.
+  /// @return error code
+  esp_err_t StopTask();
+
   /// @brief Handles the stream client request
   /// @param stream stream
   /// @return error code

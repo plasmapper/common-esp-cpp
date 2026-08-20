@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Server virtual destructor.
 
+### Fixed
+- StreamServer task not being stopped before the derived object is destroyed.
+
 ## [2.0.1] - 2026-08-19
 ### Fixed
 - Invalid iterator use in Event::Generate.

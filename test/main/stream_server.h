@@ -28,6 +28,7 @@ private:
 class StreamServer : public PL::StreamServer {
 public:
   using PL::StreamServer::StreamServer;
+  ~StreamServer();
   esp_err_t HandleRequest(PL::Stream& stream) override;
 };
 
