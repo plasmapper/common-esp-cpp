@@ -10,7 +10,10 @@ namespace PL {
 /// @brief Lockable object class
 class Lockable {
 public:
+  Lockable() = default;
   virtual ~Lockable() = default;
+  Lockable(const Lockable&) = delete;
+  Lockable& operator=(const Lockable&) = delete;
 
   /// @brief Locks the object
   /// @param timeout timeout in FreeRTOS ticks

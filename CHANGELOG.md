@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Virtual destructors to Lockable and EventHandler.
 
+### Changed
+- Lockable and EventHandler to be non-copyable.
+
 ### Fixed
 - StreamServer task not being stopped before the derived object is destroyed.
 
