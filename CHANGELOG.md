@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - StreamServer task not being stopped before the derived object is destroyed.
 - LockGuard multiple object constructor parameter documentation.
 - LockGuard unlocking objects that it failed to lock.
+- Mutex silently providing no mutual exclusion when semaphore creation failed.
 
 ## [2.0.1] - 2026-08-19
 ### Fixed
