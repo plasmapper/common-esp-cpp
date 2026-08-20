@@ -29,6 +29,10 @@ public:
   LockGuard(const LockGuard&) = delete;
   LockGuard& operator=(const LockGuard&) = delete;
 
+  /// @brief Checks if all objects are locked
+  /// @return true if all objects are locked
+  bool IsLocked() const;
+
 private:
   Lockable* lockable1 = NULL;
   Lockable* lockable2 = NULL;
