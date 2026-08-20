@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Server virtual destructor.
+- Virtual destructors to Lockable and EventHandler.
 
 ### Fixed
 - StreamServer task not being stopped before the derived object is destroyed.

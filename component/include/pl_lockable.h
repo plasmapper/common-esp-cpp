@@ -10,6 +10,8 @@ namespace PL {
 /// @brief Lockable object class
 class Lockable {
 public:
+  virtual ~Lockable() = default;
+
   /// @brief Locks the object
   /// @param timeout timeout in FreeRTOS ticks
   /// @return error code 

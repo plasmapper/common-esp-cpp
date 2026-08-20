@@ -12,6 +12,8 @@ namespace PL {
 template <class Source, class... Args>
 class EventHandler {
 public:
+  virtual ~EventHandler() = default;
+
   /// @brief Event handler callback method
   /// @param source event source
   /// @param ...args event arguments
