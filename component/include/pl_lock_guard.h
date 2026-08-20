@@ -16,13 +16,13 @@ public:
 
   /// @brief Locks multiple objects with infinite timeout preventing deadlock
   /// @param lockable1 lockable object 1
-  /// @param lockable1 lockable object 2
+  /// @param lockable2 lockable object 2
   LockGuard(Lockable& lockable1, Lockable& lockable2);
 
   /// @brief Locks multiple objects with infinite timeout preventing deadlock
   /// @param lockable1 lockable object 1
-  /// @param lockable1 lockable object 2
-  /// @param lockable1 lockable object 3
+  /// @param lockable2 lockable object 2
+  /// @param lockable3 lockable object 3
   LockGuard(Lockable& lockable1, Lockable& lockable2, Lockable& lockable3);
 
   ~LockGuard();
