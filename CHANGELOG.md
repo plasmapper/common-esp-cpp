@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Virtual destructors to Lockable and EventHandler.
 - LockGuard::IsLocked.
+- Lock timeout to LockGuard constructors.
 
 ### Changed
 - Lockable and EventHandler to be non-copyable.

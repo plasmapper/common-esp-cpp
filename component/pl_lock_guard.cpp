@@ -1,4 +1,5 @@
 #include "pl_lock_guard.h"
+#include "freertos/task.h"
 
 //==============================================================================
 
@@ -6,16 +7,20 @@ namespace PL {
 
 //==============================================================================
 
-LockGuard::LockGuard(Lockable& lockable) {
-  if (lockable.Lock() == ESP_OK)
+LockGuard::LockGuard(Lockable& lockable, TickType_t timeout) {
+  if (lockable.Lock(timeout) == ESP_OK)
     lockable1 = &lockable;
 }
 
 //==============================================================================
 
-LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2) {
+LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2, TickType_t timeout) {
+  TimeOut_t timeOut;
+  vTaskSetTimeOutState(&timeOut);
+  TickType_t remainingTimeout = timeout;
+
   while (1) {
-    if (lockable1.Lock() != ESP_OK)
+    if (lockable1.Lock(remainingTimeout) != ESP_OK)
       return;
 
     esp_err_t error = lockable2.Lock(0);
@@ -26,7 +31,7 @@ LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2) {
     }
 
     lockable1.Unlock();
-    if (error != ESP_ERR_TIMEOUT)
+    if (error != ESP_ERR_TIMEOUT || xTaskCheckForTimeOut(&timeOut, &remainingTimeout) != pdFALSE)
       return;
     vTaskDelay(1);
   }
@@ -34,9 +39,13 @@ LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2) {
 
 //==============================================================================
 
-LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2, Lockable& lockable3) {
+LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2, Lockable& lockable3, TickType_t timeout) {
+  TimeOut_t timeOut;
+  vTaskSetTimeOutState(&timeOut);
+  TickType_t remainingTimeout = timeout;
+
   while (1) {
-    if (lockable1.Lock() != ESP_OK)
+    if (lockable1.Lock(remainingTimeout) != ESP_OK)
       return;
 
     esp_err_t error = lockable2.Lock(0);
@@ -52,7 +61,7 @@ LockGuard::LockGuard(Lockable& lockable1, Lockable& lockable2, Lockable& lockabl
     }
 
     lockable1.Unlock();
-    if (error != ESP_ERR_TIMEOUT)
+    if (error != ESP_ERR_TIMEOUT || xTaskCheckForTimeOut(&timeOut, &remainingTimeout) != pdFALSE)
       return;
     vTaskDelay(1);
   }
