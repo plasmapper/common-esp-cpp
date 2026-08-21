@@ -95,9 +95,15 @@ public:
 
   /// @brief Generates the event
   /// @param ...args event arguments
+  /// @note Handlers are called synchronously on the calling task without the event lock held,
+  /// so a handler removed by another task during generation can still be called once.
   void Generate(Args... args) {
-    LockGuard lg(mutex);
-    auto handlersSnapshot = handlers;
+    std::vector<std::weak_ptr<EventHandler<Source, Args...>>> handlersSnapshot;
+    {
+      LockGuard lg(mutex);
+      handlersSnapshot = handlers;
+    }
+
     for (auto& handler : handlersSnapshot) {
       if (auto lockedHandler = handler.lock())
         lockedHandler->HandleEvent(source, args...);

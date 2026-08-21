@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Lockable and EventHandler to be non-copyable.
 - Mutex to abort when locked or unlocked from an ISR.
+- Event::Generate to call handlers without holding the event lock.
 
 ### Fixed
 - StreamServer task not being stopped before the derived object is destroyed.
