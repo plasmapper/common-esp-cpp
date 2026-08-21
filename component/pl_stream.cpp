@@ -28,36 +28,37 @@ esp_err_t Stream::ReadUntil(void* dest, size_t maxSize, char termChar, size_t* s
   uint8_t byte;
   size_t tempSize = 0;
 
-  TickType_t startTick = xTaskGetTickCount();
-  TickType_t timeout = GetReadTimeout();
+  TimeOut_t timeOut;
+  vTaskSetTimeOutState(&timeOut);
+  TickType_t remainingTimeout = GetReadTimeout();
 
   while (1) {
-    while (auto readableSize = GetReadableSize()) {
-      for (size_t i = 0; i < readableSize; i++) {
-        if (tempSize >= maxSize)
-          return ESP_ERR_INVALID_SIZE;
+    size_t readableSize = GetReadableSize();
 
-        ESP_RETURN_ON_ERROR(Read(&byte, 1), TAG, "read byte failed");
+    for (size_t i = 0; i < readableSize; i++) {
+      if (tempSize >= maxSize)
+        return ESP_ERR_INVALID_SIZE;
 
-        if (dest)
-          ((uint8_t*)dest)[tempSize] = byte;
+      ESP_RETURN_ON_ERROR(Read(&byte, 1), TAG, "read byte failed");
 
-        tempSize++;
+      if (dest)
+        ((uint8_t*)dest)[tempSize] = byte;
 
-        if (size)
-          *size = tempSize;
-        
-        if (byte == termChar)
-          return ESP_OK;
-      }
+      tempSize++;
+
+      if (size)
+        *size = tempSize;
+
+      if (byte == termChar)
+        return ESP_OK;
     }
 
-    vTaskDelay(1);
-    if (xTaskGetTickCount() - startTick >= timeout)
+    if (xTaskCheckForTimeOut(&timeOut, &remainingTimeout) != pdFALSE)
       return ESP_ERR_TIMEOUT;
-  }
 
-  return ESP_OK;
+    if (!readableSize)
+      vTaskDelay(1);
+  }
 }
 
 //==============================================================================
