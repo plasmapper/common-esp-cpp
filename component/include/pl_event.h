@@ -29,6 +29,7 @@ public:
   void AddHandler(std::shared_ptr<EventHandler<Source, Args...>> handler) {
     LockGuard lg(mutex);
     RemoveHandler(handler);
+    PruneHandlers();
     handlers.push_back(handler);
   }
 
@@ -101,6 +102,7 @@ public:
     std::vector<std::weak_ptr<EventHandler<Source, Args...>>> handlersSnapshot;
     {
       LockGuard lg(mutex);
+      PruneHandlers();
       handlersSnapshot = handlers;
     }
 
@@ -111,20 +113,46 @@ public:
   }
 
 private:
+  class MethodEventHandlerBase : public EventHandler<Source, Args...> {
+  public:
+    virtual bool IsExpired() = 0;
+  };
+
   Mutex mutex;
   Source& source;
   std::vector<std::weak_ptr<EventHandler<Source, Args...>>> handlers;
-  std::vector<std::shared_ptr<EventHandler<Source, Args...>>> methodHandlers;
+  std::vector<std::shared_ptr<MethodEventHandlerBase>> methodHandlers;
+
+  // Method handlers are released first so that the handler entries referencing them expire.
+  void PruneHandlers() {
+    for (auto methodHandler = methodHandlers.begin(); methodHandler != methodHandlers.end();) {
+      if ((*methodHandler)->IsExpired())
+        methodHandler = methodHandlers.erase(methodHandler);
+      else
+        methodHandler++;
+    }
+
+    for (auto handler = handlers.begin(); handler != handlers.end();) {
+      if (handler->expired())
+        handler = handlers.erase(handler);
+      else
+        handler++;
+    }
+  }
 
   template<class HandlerClass>
-  class MethodEventHandler : public EventHandler<Source, Args...> {
+  class MethodEventHandler : public MethodEventHandlerBase {
   public:
     std::weak_ptr<HandlerClass> handler;
     void(HandlerClass::*method)(Source&, Args...);
 
     MethodEventHandler(std::shared_ptr<HandlerClass> handler, void(HandlerClass::*method)(Source&, Args...)) :
       handler(handler), method(method) {}
-      
+
+    bool IsExpired() override {
+      return handler.expired();
+    }
+
     void HandleEvent(Source& source, Args... args) override {
       if (auto handlerLocked = handler.lock())
         ((*handlerLocked).*method)(source, args...);
