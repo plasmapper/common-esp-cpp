@@ -14,7 +14,7 @@ namespace PL {
 //==============================================================================
 
 esp_err_t Stream::Read(Buffer& dest, size_t offset, size_t size) {
-  LockGuard lg(dest);
+  LockGuard lg(*this, dest);
   ESP_RETURN_ON_FALSE(offset < dest.size, ESP_ERR_INVALID_ARG, TAG, "invalid offset");
   ESP_RETURN_ON_FALSE(size <= dest.size - offset, ESP_ERR_INVALID_SIZE, TAG, "invalid size");
   ESP_RETURN_ON_ERROR(Read((uint8_t*)dest.data + offset, size), TAG, "read failed");
@@ -64,7 +64,7 @@ esp_err_t Stream::ReadUntil(void* dest, size_t maxSize, char termChar, size_t* s
 //==============================================================================
 
 esp_err_t Stream::ReadUntil(Buffer& dest, size_t offset, char termChar, size_t* size) {
-  LockGuard lg(dest);
+  LockGuard lg(*this, dest);
   ESP_RETURN_ON_FALSE(offset < dest.size, ESP_ERR_INVALID_ARG, TAG, "invalid offset");
   ESP_RETURN_ON_ERROR(ReadUntil((uint8_t*)dest.data + offset, dest.size - offset, termChar, size), TAG, "readUntil failed");
   return ESP_OK;
@@ -79,7 +79,7 @@ esp_err_t Stream::ReadUntil(char termChar) {
 //==============================================================================
 
 esp_err_t Stream::Write(Buffer& src, size_t offset, size_t size) {
-  LockGuard lg(src);
+  LockGuard lg(*this, src);
   ESP_RETURN_ON_FALSE(offset < src.size, ESP_ERR_INVALID_ARG, TAG, "invalid offset");
   ESP_RETURN_ON_FALSE(size <= src.size - offset, ESP_ERR_INVALID_SIZE, TAG, "invalid size");
   ESP_RETURN_ON_ERROR(Write((uint8_t*)src.data + offset, size), TAG, "write failed");

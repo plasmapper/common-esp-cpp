@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - LockGuard unlocking objects that it failed to lock.
 - Mutex silently providing no mutual exclusion when semaphore creation failed.
 - Stream::ReadUntil not enforcing the read timeout while data keeps arriving.
+- Lock order inversion in the Stream Buffer overloads.
 
 ## [2.0.1] - 2026-08-19
 ### Fixed
