@@ -20,8 +20,9 @@ public:
   /// @param stream stream
   StreamServer(std::shared_ptr<Stream> stream);
 
-  /// @note Every derived class must call StopTask as the first statement of its
-  /// own destructor so that TaskCode does not call HandleRequest on a partially destroyed object.
+  /// @note Every derived class must call StopTask as the first statement of its own destructor
+  /// so that TaskCode does not call HandleRequest on a partially destroyed object; the base
+  /// destructor aborts if this was not done.
   ~StreamServer();
   StreamServer(const StreamServer&) = delete;
   StreamServer& operator=(const StreamServer&) = delete;
