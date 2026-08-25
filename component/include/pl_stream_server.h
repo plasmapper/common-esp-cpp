@@ -51,7 +51,8 @@ public:
 protected:
   /// @brief Stops the server task and waits for it to exit
   /// @note Must be called as the first statement of the destructor of every derived class
-  /// so that TaskCode does not call HandleRequest on a partially destroyed object.
+  /// so that TaskCode does not call HandleRequest on a partially destroyed object. Aborts
+  /// if called from the server task itself, since it cannot wait for its own task to exit.
   /// @return error code
   esp_err_t StopTask();
 

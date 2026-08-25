@@ -5,7 +5,7 @@ Common Component
 
 .. |ESP_IDF_VERSION| replace:: 5.0
 
-.. |VERSION| replace:: 2.1.0
+.. |VERSION| replace:: 2.1.1
 
 .. include:: ../../../installation.rst
 

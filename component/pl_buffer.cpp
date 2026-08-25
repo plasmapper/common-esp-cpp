@@ -3,7 +3,6 @@
 #include "pl_lock_guard.h"
 #include "string.h"
 #include "esp_check.h"
-#include <cstdlib>
 
 //==============================================================================
 
