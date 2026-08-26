@@ -120,13 +120,13 @@ esp_err_t StreamServer::StopTask() {
     abort();
   }
   LockGuard lg(*this);
-  bool wasRunning = taskHandle;
+  if (!taskHandle)
+    return ESP_OK;
   while (taskHandle) {
     disable = true;
     vTaskDelay(1);
   }
-  if (wasRunning)
-    disabledEvent.Generate();
+  disabledEvent.Generate();
   return ESP_OK;
 }
 
