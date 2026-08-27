@@ -5,6 +5,7 @@
 #include "pl_event_handler.h"
 #include "pl_hardware_interface.h"
 #include "pl_lock_guard.h"
+#include "pl_lockable.h"
 #include "pl_mutex.h"
 #include "pl_server.h"
 #include "pl_stream.h"
