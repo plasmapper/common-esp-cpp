@@ -98,6 +98,8 @@ std::shared_ptr<Stream> StreamServer::GetStream() {
 
 esp_err_t StreamServer::SetStream(std::shared_ptr<Stream> stream) {
   LockGuard lg(*this);
+  if (this->stream == stream)
+    return ESP_OK;
   this->stream = stream;
   ESP_RETURN_ON_ERROR(RestartIfEnabled(), TAG, "restart failed");
   return ESP_OK;
@@ -107,6 +109,8 @@ esp_err_t StreamServer::SetStream(std::shared_ptr<Stream> stream) {
 
 esp_err_t StreamServer::SetTaskParameters(const TaskParameters& taskParameters) {
   LockGuard lg(*this);
+  if (this->taskParameters == taskParameters)
+    return ESP_OK;
   this->taskParameters = taskParameters;
   ESP_RETURN_ON_ERROR(RestartIfEnabled(), TAG, "restart failed");
   return ESP_OK;

@@ -15,6 +15,9 @@ struct TaskParameters {
   UBaseType_t priority;
   /// @brief Task CPU core ID
   BaseType_t coreId;
+
+  bool operator==(const TaskParameters& other) const;
+  bool operator!=(const TaskParameters& other) const;
 };
 
 //==============================================================================
